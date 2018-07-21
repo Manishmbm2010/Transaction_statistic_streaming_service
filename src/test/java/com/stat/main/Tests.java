@@ -11,6 +11,8 @@ import java.time.Instant;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,7 +28,8 @@ import com.stat.service.StatisticsService;
 @AutoConfigureMockMvc
 // @WebMvcTest
 public class Tests {
-
+	
+	private static final Logger logger = LoggerFactory.getLogger(StatisticsService.class);
 	@Autowired
 	MockMvc mockMvc;
 	private ObjectMapper mapper = new ObjectMapper();
@@ -117,7 +120,7 @@ public class Tests {
 				.andExpect(jsonPath("$.sum", is(60.0))).andExpect(jsonPath("$.min", is(60.0)))
 				.andExpect(jsonPath("$.max", is(60.0))).andExpect(jsonPath("$.avg", is(60.0)))
 				.andExpect(jsonPath("$.count", is(1))).andExpect(status().is(200));
-
+		logger.info("Sleeping the thread for 60 seconds to test the update on the transaction list and statistics");
 		Thread.sleep(60001);
 		statService.calculateTransactionStats();
 		mockMvc.perform(get("/statistics")).andExpect(content().contentType("application/json;charset=UTF-8"))
