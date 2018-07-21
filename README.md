@@ -51,8 +51,8 @@ Test cases will take at least a minute and few seconds because in one of the tes
 
 If you want to test the code and post some transaction data to service you can do it in an autaomated faishon by following the below instructions.
 
-cd transaction_statistic_streaming_service/
-./automatedCurl.sh 5000 0
+* cd transaction_statistic_streaming_service/
+* ./automatedCurl.sh 5000 0
 
 Just call automated curl with two arguments.
 
