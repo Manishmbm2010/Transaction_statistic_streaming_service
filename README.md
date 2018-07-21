@@ -35,15 +35,15 @@ Test cases will take at least a minute and few seconds because in one of the tes
 
 1. In Conatiner
 
-* git clone https://Manishmbm2010@bitbucket.org/Manishmbm2010/transaction_statistic_streaming-_service.git
-* cd transaction_statistic_streaming-_service/
+* git clone https://Manishmbm2010@bitbucket.org/Manishmbm2010/transaction_statistic_streaming_service.git
+* cd transaction_statistic_streaming_service/
 * sudo docker run -it --rm -v "$PWD":/usr/src/app/ --volume "$HOME"/.m2:/root/.m2 -w /usr/src/app/ maven:3-jdk-8-alpine mvn clean install
 * sudo docker-compose up --build
 
 2. Without Conatiner
 
-* git clone https://Manishmbm2010@bitbucket.org/Manishmbm2010/transaction_statistic_streaming-_service.git
-* cd transaction_statistic_streaming-_service/
+* git clone https://Manishmbm2010@bitbucket.org/Manishmbm2010/transaction_statistic_streaming_service.git
+* cd transaction_statistic_streaming_service/
 * mvn clean install
 * java -jar target/statistics-0.0.1.jar
 
@@ -51,7 +51,7 @@ Test cases will take at least a minute and few seconds because in one of the tes
 
 If you want to test the code and post some transaction data to service you can do it in an autaomated faishon by following the below instructions.
 
-cd transaction_statistic_streaming-_service/
+cd transaction_statistic_streaming_service/
 ./automatedCurl.sh 5000 0
 
 Just call automated curl with two arguments.
