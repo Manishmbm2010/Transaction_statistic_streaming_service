@@ -1,10 +1,10 @@
 /target/
-!.mvn/wrapper/maven-wrapper.jar
 
 
 ### others ###
 logs/
 mvnw*
+.mvn*
 
 ### STS ###
 .apt_generated
