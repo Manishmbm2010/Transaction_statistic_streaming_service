@@ -19,7 +19,7 @@ public class Controller {
 	StatisticsService statService;
 
 	@PostMapping("transactions")
-	public ResponseEntity addTransaction(@RequestBody Transaction transaction) {
+	public ResponseEntity<String> addTransaction(@RequestBody Transaction transaction) {
 		/*
 		 * Controller function to add the transaction in List if transaction time stamp
 		 * is not older than 60 seconds

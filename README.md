@@ -31,6 +31,8 @@ If want to run the code in docker,Docker machine should be up and running. Docke
 
 ### Deployment
 
+Test cases will take at least a minute and few seconds because in one of the test case delay of 61 seconds has been introduced.
+
 1. In Conatiner
 
 * git clone https://Manishmbm2010@bitbucket.org/Manishmbm2010/transaction_statistic_streaming-_service.git
