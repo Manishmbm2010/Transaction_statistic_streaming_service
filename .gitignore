@@ -3,9 +3,8 @@
 
 
 ### others ###
-./logs/
-mvnw
-mvnw.cmd
+logs/
+mvnw*
 
 ### STS ###
 .apt_generated

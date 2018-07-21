@@ -1,11 +1,14 @@
 ## Project :  Transaction stats streaming as a service
 
-Code provide streaming of real time stats of transactions as a service that runs in a docker container.
+Code provide streaming of real time stats of transactions as a service and provide the instructions to deploy the code in docker container.
 
 ## Project Brief
 
-This service have two end points, first to get the transaction data into the system
-and second endpoint provide the way to get the stats(sum,total,min,max,avg) of transaction inserted in last 60 seconds.
+This service has two end points, first one to get the transaction data into the system and second endpoint provide the way to get the stats(sum,total,min,max,avg) of transactions whose time stamp is not older than 60 seconds.
+In order to acheive the time and space complexity almost constant for /statistic end point , a daemon kind of scheduled process has been setup.
+This process execute with 1 millisecond of interval of its last iteration , that make sure you get all updated stats without getting into the calculation that makes the O(1) time complexity for /statistic end point.
+Scheduled process takes care of deletion of transaction which are older than 60 seconds ,hence maintaing the space complexity to the number of transaction intiated in last 60 seconds.
+API are thread safe and allow concurrent updates on the list that makes the solution more robbust.
 
  
 ## Technology stack
@@ -22,7 +25,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-Code can be started with docker as well in normal way provide you have jdk installed in your system.
+Code can be started with docker as well in normal way provide you have jdk & maven installed in your system.
 If want to run the code in docker,Docker machine should be up and running. Docker compose should be installed
 
 
@@ -30,44 +33,36 @@ If want to run the code in docker,Docker machine should be up and running. Docke
 
 1. In Conatiner
 
-* git clone https://Manishmbm2010@bitbucket.org/Manishmbm2010/home_banking_service_django_poc.git
-* cd home_banking_service_django_poc/
+* git clone https://Manishmbm2010@bitbucket.org/Manishmbm2010/transaction_statistic_streaming-_service.git
+* cd transaction_statistic_streaming-_service/
 * sudo docker run -it --rm -v "$PWD":/usr/src/app/ --volume "$HOME"/.m2:/root/.m2 -w /usr/src/app/ maven:3-jdk-8-alpine mvn clean install
 * sudo docker-compose up --build
 
 2. Without Conatiner
 
-* git clone https://Manishmbm2010@bitbucket.org/Manishmbm2010/home_banking_service_django_poc.git
-* cd home_banking_service_django_poc/
+* git clone https://Manishmbm2010@bitbucket.org/Manishmbm2010/transaction_statistic_streaming-_service.git
+* cd transaction_statistic_streaming-_service/
 * mvn clean install
-* java -jar target/
+* java -jar target/statistics-0.0.1.jar
 
 ### Testing with bulk Requests
 
 If you want to test the code and post some transaction data to service you can do it in an autaomated faishon by following the below instructions.
 
-sh automatedCurl.sh 5 10
+cd transaction_statistic_streaming-_service/
+./automatedCurl.sh 5000 0
 
 Just call automated curl with two arguments.
 
-First argument take the number of request you want to make.
-Second argument introduce delay(in seconds) between every request intiated.
+First argument take the number of request you would like to make.
+Second argument introduce delay(in seconds) between every request.
 
 ### Rest end points
 
 
-* http://localhost:8080/transactions			        (method=POST)
-* {"amount": 12.3,"timestamp": 1578192204000}
-* http://localhost:8080/transactions				(method=GET)
+* http://localhost:8080/transactions			        (method=POST)  body : {"amount": 12.3,"timestamp": 1578192204000}
 * http://localhost:8080/statistics				(method=PUT) 
 
-
-### Solution architecture
-
-In order to make the services time and space complexity near to o(1) and to provide the stats streaming faciliate
-a internal dameon kind of process scheduled for evey second that calcuate the stats and update the final stats, that is being consumned by the stat service in O(1) time. at the same time all the transaction whose timestamp is older than 60 seconds will be deleted to maintain the space complexity of the service near to O(1).
-
- 
 
 ##Author
 
