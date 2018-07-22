@@ -13,6 +13,7 @@ public class Stat {
 	private Stat() {
 
 	}
+
 	// Create the task instance if it is not created already
 	public static Stat getInstance() {
 		if (stats == null) {
@@ -21,44 +22,38 @@ public class Stat {
 		return stats;
 	}
 
-	public double getSum() {
+	public synchronized void setStats(double sum, double avg, double max, double min, long count) {
+		this.sum = sum;
+		this.avg = avg;
+		/*
+		 * while (true) {
+		 * 
+		 * Thread.sleep(60000); break; }
+		 */
+		this.max = max;
+		this.min = min;
+		this.count = count;
+
+	}
+
+	public synchronized double getSum() {
 		return sum;
 	}
 
-	public void setSum(double sum) {
-		this.sum = sum;
-	}
-
-	public double getAvg() {
+	public synchronized double getAvg() {
 		return avg;
 	}
 
-	public void setAvg(double avg) {
-		this.avg = avg;
-	}
-
-	public double getMax() {
+	public synchronized double getMax() {
 		return max;
 	}
 
-	public void setMax(double max) {
-		this.max = max;
-	}
-
-	public double getMin() {
+	public synchronized double getMin() {
 		return min;
 	}
 
-	public void setMin(double min) {
-		this.min = min;
-	}
-
-	public long getCount() {
+	public synchronized long getCount() {
 		return count;
-	}
-
-	public void setCount(long count) {
-		this.count = count;
 	}
 
 }

@@ -26,7 +26,7 @@ public class StatisticsService {
 		Instant instant = Instant.now();
 		long currentTimeStampMillis = instant.toEpochMilli();
 		long transactionTimeMilli = transaction.getTimestamp();
-		double timeDiff = (double)(currentTimeStampMillis - transactionTimeMilli) / 1000;
+		double timeDiff = (double) (currentTimeStampMillis - transactionTimeMilli) / 1000;
 		LocalDateTime transactionDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(transactionTimeMilli),
 				ZoneId.systemDefault());
 		LocalDateTime currentDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(currentTimeStampMillis),
@@ -76,24 +76,19 @@ public class StatisticsService {
 		Instant instant = Instant.now();
 		long currentTimeStampMillis = instant.toEpochMilli();
 		// Removing transaction which are older than 60 seconds
-		transactionList.removeIf(transaction -> ((double)(currentTimeStampMillis - transaction.getTimestamp()) / 1000) > 60);
+		transactionList
+				.removeIf(transaction -> ((double) (currentTimeStampMillis - transaction.getTimestamp()) / 1000) > 60);
 		// Getting the statistics from all available transaction in transaction List.
 		DoubleSummaryStatistics summaryStats = transactionList.parallelStream()
 				.map(transaction -> transaction.getAmount()).mapToDouble(amount -> amount).summaryStatistics();
 
 		long count = summaryStats.getCount();
-		stat.setCount(count);
 		// if Count is zero ,then values of other statistics parameter will be zero
 		if (count == 0) {
-			stat.setAvg(0);
-			stat.setMax(0);
-			stat.setMin(0);
-			stat.setSum(0);
+			stat.setStats(0, 0, 0, 0, 0);
 		} else {
-			stat.setAvg(summaryStats.getAverage());
-			stat.setMax(summaryStats.getMax());
-			stat.setMin(summaryStats.getMin());
-			stat.setSum(summaryStats.getSum());
+			stat.setStats(summaryStats.getSum(), summaryStats.getAverage(), summaryStats.getMax(),
+					summaryStats.getMin(), summaryStats.getCount());
 		}
 	}
 }
